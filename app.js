@@ -4,8 +4,8 @@ const list = document.getElementById("todo-list");
 const emptyState = document.getElementById("empty-state");
 
 function loadTasks() {
-  const saved = localStorage.getItem("tasks");
-  return saved ? JSON.parse(saved) : [];
+  const data = localStorage.getItem("tasks");
+  return data ? JSON.parse(data) : [];
 }
 
 function saveTasks(tasks) {
@@ -16,29 +16,39 @@ function updateEmptyState(tasks) {
   emptyState.hidden = tasks.length > 0;
 }
 
-function renderTask(taskText) {
+function createTaskElement(taskText) {
   const li = document.createElement("li");
   li.textContent = taskText;
 
   li.addEventListener("click", function () {
-  li.remove();
-  const tasks = loadTasks().filter((t) => t !== taskText);
-  saveTasks(tasks);
-  updateEmptyState(tasks);
+    deleteTask(taskText);
   });
 
-
-  list.appendChild(li);
+  return li;
 }
 
-function renderAll(tasks) {
+function renderTasks(tasks) {
   list.innerHTML = "";
+  tasks.forEach(function (task) {
+    list.appendChild(createTaskElement(task));
+  });
   updateEmptyState(tasks);
-  tasks.forEach(renderTask);
 }
 
-const tasks = loadTasks();
-renderAll(tasks);
+function addTask(taskText) {
+  const tasks = loadTasks();
+  tasks.push(taskText);
+  saveTasks(tasks);
+  renderTasks(tasks);
+}
+
+function deleteTask(taskText) {
+  const tasks = loadTasks().filter(function (t) {
+    return t !== taskText;
+  });
+  saveTasks(tasks);
+  renderTasks(tasks);
+}
 
 form.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -46,11 +56,9 @@ form.addEventListener("submit", function (event) {
   const taskText = input.value.trim();
   if (taskText === "") return;
 
-  const updated = loadTasks();
-  updated.push(taskText);
-  saveTasks(updated);
-  updateEmptyState(updated);
-
-  renderTask(taskText);
+  addTask(taskText);
   input.value = "";
 });
+
+const tasks = loadTasks();
+renderTasks(tasks);
