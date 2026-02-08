@@ -2,6 +2,7 @@ const form = document.getElementById("todo-form");
 const input = document.getElementById("todo-input");
 const list = document.getElementById("todo-list");
 const emptyState = document.getElementById("empty-state");
+const clearBtn = document.getElementById("clear-btn");
 
 function loadTasks() {
   const data = localStorage.getItem("tasks");
@@ -59,6 +60,13 @@ form.addEventListener("submit", function (event) {
   addTask(taskText);
   input.value = "";
 });
+
+clearBtn.addEventListener("click", function () {
+  localStorage.setItem("tasks", JSON.stringify([]));
+  list.innerHTML = "";
+  updateEmptyState([]);
+});
+
 
 const tasks = loadTasks();
 renderTasks(tasks);
