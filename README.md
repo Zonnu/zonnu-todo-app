@@ -35,3 +35,6 @@ Tasks are saved locally using `localStorage`.
 ## Screenshots
 ![Main screen](screenshots/main-tasks.png)
 ![Victory_screen](screenshots/main-no-tasks.png)
+
+---
+Note: GitHub Pages setup and screenshots were added together during initial documentation.
