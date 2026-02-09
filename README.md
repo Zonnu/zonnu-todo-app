@@ -27,7 +27,7 @@ Tasks are saved locally using `localStorage`.
 1. Clone the repository
 2. Open `index.html` in your browser
 
-## Roadmap (optional)
+## Roadmap
 - Prevent duplicate tasks
 - Mark tasks as completed
 - Edit existing tasks
